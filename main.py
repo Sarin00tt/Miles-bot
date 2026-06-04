@@ -78,4 +78,3 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 
     application.run_polling()
-    
