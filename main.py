@@ -10,7 +10,7 @@ from telegram.ext import (
 # Define states for the profile conversation
 NAME, AGE, INTERESTS, BIO, CONFIRM = range(5)
 
-# In-memory storage (for persistence across restarts, use a database later)
+# In-memory storage
 waiting_queue = []
 active_pairs = {}
 
@@ -110,10 +110,10 @@ async def skip_partner(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Not in a chat.")
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_id = update.[span_4](start_span)effective_user.id
+    user_id = update.effective_user.id
     if user_id in active_pairs:
         partner_id = active_pairs[user_id]
-        # Professional typing indicator[span_4](end_span)
+        # Professional typing indicator
         await context.bot.send_chat_action(chat_id=partner_id, action=constants.ChatAction.TYPING)
         await asyncio.sleep(1.2)
         await context.bot.send_message(chat_id=partner_id, text=update.message.text)
@@ -143,4 +143,4 @@ if __name__ == '__main__':
     app.add_handler(CommandHandler("profile", show_profile))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
     app.run_polling()
-        
+    
