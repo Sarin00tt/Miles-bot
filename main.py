@@ -58,7 +58,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Remember: 5 reports will result in a 5-day ban."
     )
 
-if __name__ == '__main__':
+    if __name__ == '__main__':
     TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
     application = ApplicationBuilder().token(TOKEN).build()
 
@@ -67,14 +67,15 @@ if __name__ == '__main__':
         states={
             NAME: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_name)],
             GENDER: [MessageHandler(filters.TEXT, get_gender)],
-            PHOTO: [MessageHandler(filters.PHOTO | filters.TEXT, get_photo)],
+            PHOTO: [MessageHandler(filters.PHOTO, get_photo)],
         },
-        fallbacks=[CommandHandler("cancel", lambda u, c: ConversationHandler.END)],
+        fallbacks=[CommandHandler("cancel", lambda u, c: None)],
     )
 
     application.add_handler(conv_handler)
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("search", find_partner))
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 
     application.run_polling()
-  
+    
